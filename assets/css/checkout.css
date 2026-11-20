@@ -1,0 +1,164 @@
+/*
+ * UPI Direct for WooCommerce: payment panel.
+ * Inherits the theme's font and text colour; only brand accents are set here.
+ * Override any --upidw-* variable from your theme to re-skin.
+ */
+.upidw-panel {
+	--upidw-ink: #12294f;
+	--upidw-pending: #d9730d;
+	--upidw-verifying: #12294f;
+	--upidw-ok: #14803c;
+	--upidw-bad: #b42318;
+	--upidw-line: rgba(18, 41, 79, 0.14);
+	--upidw-soft: rgba(18, 41, 79, 0.045);
+	--upidw-radius: 12px;
+	--upidw-accent: var(--upidw-pending);
+
+	box-sizing: border-box;
+	max-width: 760px;
+	margin: 0 0 2rem;
+	padding: 0;
+	border: 1px solid var(--upidw-line);
+	border-top: 4px solid var(--upidw-accent);
+	border-radius: var(--upidw-radius);
+	background: #fff;
+	color: #1d2327;
+	line-height: 1.5;
+	overflow: hidden;
+}
+.upidw-panel *,
+.upidw-panel *::before,
+.upidw-panel *::after { box-sizing: inherit; }
+
+.upidw-panel[data-state="awaiting_verification"] { --upidw-accent: var(--upidw-verifying); }
+.upidw-panel[data-state="paid"] { --upidw-accent: var(--upidw-ok); }
+.upidw-panel[data-state="rejected"] { --upidw-accent: var(--upidw-bad); }
+.upidw-panel[data-state="closed"] { --upidw-accent: #8c8f94; }
+
+/* Header */
+.upidw-head {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: flex-start;
+	justify-content: space-between;
+	gap: 0.75rem 1rem;
+	padding: 1.25rem 1.25rem 0.75rem;
+}
+.upidw-title { margin: 0 0 0.25rem; font-size: 1.05rem; font-weight: 600; color: var(--upidw-ink); }
+.upidw-amount { margin: 0; display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.1rem 0.6rem; }
+.upidw-amount__value { font-size: 2rem; font-weight: 700; line-height: 1.1; letter-spacing: -0.01em; font-variant-numeric: tabular-nums; color: var(--upidw-ink); }
+.upidw-amount__meta { font-size: 0.9rem; opacity: 0.75; }
+
+.upidw-badge {
+	margin: 0;
+	padding: 0.25rem 0.7rem;
+	border-radius: 999px;
+	font-size: 0.82rem;
+	font-weight: 600;
+	white-space: nowrap;
+	color: var(--upidw-accent);
+	background: color-mix(in srgb, var(--upidw-accent) 12%, #fff);
+	border: 1px solid color-mix(in srgb, var(--upidw-accent) 35%, #fff);
+}
+
+.upidw-status { margin: 0; padding: 0 1.25rem 1rem; font-size: 0.95rem; }
+.upidw-flash { margin: 0 1.25rem 1rem; padding: 0.6rem 0.85rem; border-radius: 8px; font-size: 0.92rem; }
+.upidw-flash--success { background: #edf7f0; border: 1px solid #b9dec4; color: #0f5c2b; }
+.upidw-flash--error { background: #fdf0ee; border: 1px solid #f0c2bc; color: #8a1c12; }
+
+/* Pay methods: stacked on phones (apps first), side by side from tablet up. */
+.upidw-pay {
+	display: grid;
+	grid-template-columns: 1fr;
+	gap: 0;
+	border-top: 1px solid var(--upidw-line);
+}
+.upidw-pay > * { padding: 1.1rem 1.25rem; }
+.upidw-pay > * + * { border-top: 1px solid var(--upidw-line); }
+.upidw-h { margin: 0; font-size: 0.98rem; font-weight: 600; color: var(--upidw-ink); }
+.upidw-sub { margin: 0.15rem 0 0.8rem; font-size: 0.88rem; opacity: 0.75; }
+
+.upidw-apps__list { margin: 0; padding: 0; list-style: none; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.5rem; }
+.upidw-apps__list li { margin: 0; padding: 0; }
+.upidw-apps__list li:first-child { grid-column: 1 / -1; }
+.upidw-app {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	min-height: 48px;
+	padding: 0.6rem 0.9rem;
+	border: 1px solid var(--upidw-line);
+	border-radius: 10px;
+	background: #fff;
+	color: var(--upidw-ink);
+	font-weight: 600;
+	text-decoration: none;
+	transition: border-color 0.15s ease, background-color 0.15s ease;
+}
+.upidw-app--generic { background: var(--upidw-ink); border-color: var(--upidw-ink); color: #fff; }
+.upidw-app:hover { border-color: var(--upidw-ink); background: var(--upidw-soft); }
+.upidw-app--generic:hover { background: #0c1d3a; }
+.upidw-app:focus-visible, .upidw-copy:focus-visible, .upidw-ref__input:focus-visible, .upidw-help summary:focus-visible {
+	outline: 3px solid color-mix(in srgb, var(--upidw-ink) 45%, #fff);
+	outline-offset: 2px;
+}
+
+.upidw-qr__frame {
+	display: inline-block;
+	padding: 0.7rem;
+	border: 1px solid var(--upidw-line);
+	border-radius: 10px;
+	background: #fff;
+}
+.upidw-qr__code { width: 176px; height: 176px; }
+.upidw-qr__code svg { display: block; width: 100%; height: 100%; }
+
+.upidw-vpa { display: flex; flex-wrap: wrap; align-items: center; gap: 0.4rem 0.75rem; background: var(--upidw-soft); }
+.upidw-vpa__label { font-size: 0.88rem; opacity: 0.8; }
+.upidw-vpa__value { font-size: 0.95rem; font-weight: 600; padding: 0.15rem 0.45rem; background: #fff; border: 1px solid var(--upidw-line); border-radius: 6px; word-break: break-all; }
+.upidw-copy { padding: 0.25rem 0.7rem; border: 1px solid var(--upidw-line); border-radius: 6px; background: #fff; color: var(--upidw-ink); font-size: 0.85rem; font-weight: 600; cursor: pointer; }
+.upidw-copy[hidden] { display: none; }
+
+/* Reference form */
+.upidw-ref { padding: 1.1rem 1.25rem; border-top: 1px solid var(--upidw-line); }
+.upidw-ref__label { display: block; font-weight: 600; color: var(--upidw-ink); }
+.upidw-ref__row { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+.upidw-ref__input { flex: 1 1 12rem; min-height: 48px; padding: 0.55rem 0.8rem; font-size: 1.05rem; letter-spacing: 0.04em; font-variant-numeric: tabular-nums; border: 1px solid #8c8f94; border-radius: 8px; background: #fff; color: #1d2327; }
+.upidw-ref__input[aria-invalid="true"] { border-color: var(--upidw-bad); }
+.upidw-ref__submit.button { flex: 0 0 auto; min-height: 48px; margin: 0; padding: 0 1.4rem; border-radius: 8px; }
+.upidw-ref__submit[disabled] { opacity: 0.6; cursor: wait; }
+.upidw-ref__error { margin: 0.5rem 0 0; color: var(--upidw-bad); font-size: 0.9rem; }
+.upidw-ref__error[hidden] { display: none; }
+
+.upidw-help { padding: 0.9rem 1.25rem; border-top: 1px solid var(--upidw-line); font-size: 0.9rem; }
+.upidw-help summary { cursor: pointer; font-weight: 600; color: var(--upidw-ink); }
+.upidw-help p { margin: 0.5rem 0 0; }
+.upidw-retry { margin: 0; padding: 0 1.25rem 1.25rem; }
+.upidw-noscript { margin: 0; padding: 0.9rem 1.25rem; font-size: 0.9rem; border-top: 1px solid var(--upidw-line); }
+
+/* State-driven visibility: the pay area is only useful while unpaid. */
+.upidw-panel[data-state="awaiting_verification"] .upidw-pay { display: none; }
+.upidw-panel[data-state="awaiting_verification"] .upidw-ref__label::after { content: " (wrong number? send it again)"; font-weight: 400; opacity: 0.7; }
+.upidw-panel[data-state="paid"] .upidw-pay,
+.upidw-panel[data-state="paid"] .upidw-ref,
+.upidw-panel[data-state="paid"] .upidw-help,
+.upidw-panel[data-state="closed"] .upidw-pay,
+.upidw-panel[data-state="closed"] .upidw-ref,
+.upidw-panel[data-state="rejected"] .upidw-pay,
+.upidw-panel[data-state="rejected"] .upidw-ref { display: none; }
+
+/*
+ * One path per device: touch devices get app buttons (a phone cannot scan its own screen),
+ * desktops get the QR code (upi:// links do nothing without a UPI app). If one of the two
+ * is switched off in settings, the other is always shown.
+ */
+@media (hover: none) and (pointer: coarse) {
+	.upidw-has-qr:not(.upidw-no-apps) .upidw-qr { display: none; }
+}
+@media (hover: hover) and (pointer: fine) {
+	.upidw-has-qr .upidw-apps { display: none; }
+	.upidw-qr__code { width: 200px; height: 200px; }
+}
+@media (prefers-reduced-motion: reduce) {
+	.upidw-app { transition: none; }
+}
